@@ -27,7 +27,21 @@ ament_target_dependencies(
   "neato2_interfaces"
 )
 
-install(TARGETS emergency_stop
+add_executable(distance_emergency_stop src/distance_emergency_stop.cpp)
+target_include_directories(distance_emergency_stop PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(distance_emergency_stop PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+ament_target_dependencies(
+  distance_emergency_stop
+  "rclcpp"
+  "std_msgs"
+  "geometry_msgs"
+  "sensor_msgs"
+  "neato2_interfaces"
+)
+
+install(TARGETS emergency_stop distance_emergency_stop
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
